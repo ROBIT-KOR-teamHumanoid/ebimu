@@ -1,4 +1,4 @@
-# ebimu with row2
+# ebimu with ros2
 
 
 quaternion -> euler
