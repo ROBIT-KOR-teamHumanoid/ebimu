@@ -26,7 +26,7 @@ def generate_launch_description():
         output='screen',
         emulate_tty=True,
         parameters=[{
-            'port_name': '/dev/ttyUSB0',
+            'port_name': '/dev/ttyUSB-EBIMU',
             'baudrate': 115200,
             'loop_rate': 100,
             'angular_velocity_threshold': 0.3,

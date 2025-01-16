@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
   qnode = new QNode();
 
   QObject::connect(qnode, SIGNAL(dial_update()), this, SLOT(imu_callback()));
+  //QObject::connect(qnode, &QNode::dial_update, this, &MainWindow::imu_callback);
   QObject::connect(qnode, SIGNAL(rosShutDown()), this, SLOT(close()));
 }
 

@@ -29,7 +29,7 @@ E2BoxIMUNode::E2BoxIMUNode() : Node("e2box_imu"), is_shutting_down_(false)
 {
   RCLCPP_INFO(this->get_logger(), "E2BoxIMUNode Constructed.");
 
-  this->declare_parameter<std::string>("port_name", "/dev/ttyUSB0");
+  this->declare_parameter<std::string>("port_name", "/dev/ttyUSB-EBIMU");
   this->declare_parameter<int>("baudrate", 115200);
   this->declare_parameter<int>("loop_rate", 100);
   this->declare_parameter<double>("angular_velocity_threshold", 0.3);
@@ -278,7 +278,7 @@ void E2BoxIMUNode::publishIMUData()
     imu_msg_.linear_acceleration.z =
       (imu_msg_temp_.linear_acceleration.z + imu_msg_prev_.linear_acceleration.z) / 2.0;
 
-    imu_publisher_->publish(imu_msg_);
+    //imu_publisher_->publish(imu_msg_);
   }
 }
 
@@ -303,9 +303,9 @@ void E2BoxIMUNode::publishEulerData()
   t4 = 1.0 - 2.0 * (y * y + z * z);
   yaw = atan2(t3,t4);
 
-  imu_data_.roll = roll*180/M_PI;
-  imu_data_.pitch = pitch*180/M_PI;
-  imu_data_.yaw = yaw*180/M_PI;
+  imu_data_.roll = (roll*180)/M_PI;
+  imu_data_.pitch = (pitch*180)/M_PI;
+  imu_data_.yaw = (yaw*180)/M_PI;
 
   std::cout.precision(4);
   std::cout << std::endl;
