@@ -20,8 +20,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     e2box_imu_node = Node(
-        package='e2box_imu', 
-        executable='e2box_imu', 
+        package='ebimu', 
+        executable='ebimu', 
         name='e2box_imu_node',  
         output='screen',
         emulate_tty=True,
