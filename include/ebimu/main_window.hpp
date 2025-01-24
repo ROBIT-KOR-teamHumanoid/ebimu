@@ -18,9 +18,9 @@
 #include "qnode.hpp"
 #include "ui_mainwindow.h"
 
-
-
 namespace e2box_imu {
+
+
 /*****************************************************************************
 ** Interface [MainWindow]
 *****************************************************************************/
@@ -37,6 +37,7 @@ public:
   QNode* qnode;
   E2BoxIMUNode* node;
   
+  
 public Q_SLOTS:
   void imu_callback();
   void on_pushButton_set_clicked();
@@ -50,6 +51,8 @@ private:
   void closeEvent(QCloseEvent* event);
 
   double past_yaw;
+
+  
 };
 }
 #endif  // ebimu_MAIN_WINDOW_H

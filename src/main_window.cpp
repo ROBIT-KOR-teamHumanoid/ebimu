@@ -15,7 +15,8 @@
 //double roll = 0.0;
 //double pitch = 0.0;
 //double yaw = 0.0;
-humanoid_interfaces::msg::ImuMsg imu_data_;
+extern rclcpp::Publisher<humanoid_interfaces::msg::ImuMsg>::SharedPtr imu_publisher_;
+extern humanoid_interfaces::msg::ImuMsg imu_data_;
 
 namespace e2box_imu {
 
@@ -55,6 +56,18 @@ void MainWindow::imu_callback()
 
   if(yaw > 180) yaw -= 360;
   else if(yaw <= -180)  yaw += 360;
+  imu_data_.yaw=yaw;
+
+  std::cout.precision(4);
+  std::cout << std::endl;
+  std::cout<<" YAW  | "<<imu_data_.yaw << std::endl;
+  std::cout<<" ROLL | "<<imu_data_.roll << std::endl;
+  std::cout<<" PITCH| "<<imu_data_.pitch << std::endl;
+  std::cout << std::endl;
+  
+  imu_publisher_->publish(imu_data_);
+  //node->imu_publisher_->publish(imu_data_);
+  
   uiUpdate();
 }
 
@@ -62,7 +75,7 @@ void MainWindow::uiUpdate()
 {
   ui->dial->setValue(static_cast<int>(yaw));//y
   ui->verticalSlider->setValue(static_cast<int>(pitch));//p
-  ui->horizontalSlider->setValue(static_cast<int>(roll));//r
+  ui->horizontalSlider->setValue(static_cast<int>(roll));//r  
 }
 
 void MainWindow::on_pushButton_set_clicked()

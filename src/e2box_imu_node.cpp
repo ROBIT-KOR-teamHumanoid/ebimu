@@ -19,6 +19,9 @@
 pthread_t thread_serial;
 pthread_t tSerialThread;
 
+humanoid_interfaces::msg::ImuMsg imu_data_;
+rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_publisher_;
+
 namespace e2box_imu
 {
   double roll = 0.0;
@@ -56,16 +59,14 @@ E2BoxIMUNode::E2BoxIMUNode() : Node("e2box_imu"), is_shutting_down_(false)
     this->get_logger(), "Linear acceleration threshold is set to %f.",
     linear_acceleration_threshold);
 
-  imu_publisher_ = this->create_publisher<sensor_msgs::msg::Imu>(
-    "imu", rclcpp::QoS(rclcpp::KeepLast(1)).reliable().best_effort());
   imu_Pub = this->create_publisher<humanoid_interfaces::msg::ImuMsg>(
-    "Imu", rclcpp::QoS(rclcpp::KeepLast(10)).reliable().best_effort());
+    "bridge", rclcpp::QoS(rclcpp::KeepLast(10)).reliable().best_effort());
 
   auto period = std::chrono::milliseconds(1000 / loop_rate);
   timer_ = this->create_wall_timer(period, std::bind(&E2BoxIMUNode::timerCallback, this));
 
   initialize();
-  
+
   setCallback();
 }
 
@@ -295,7 +296,7 @@ void E2BoxIMUNode::publishEulerData()
   roll = atan2(t0,t1);
 
   t2 = 2.0 * (w * y - z * x);
-  if (t2 > 1.0) t2 = 1.0; 
+  if (t2 > 1.0) t2 = 1.0;
   else if (t2 < -1.0) t2 = -1.0;
   pitch = asin(t2);
 
@@ -303,16 +304,9 @@ void E2BoxIMUNode::publishEulerData()
   t4 = 1.0 - 2.0 * (y * y + z * z);
   yaw = atan2(t3,t4);
 
-  imu_data_.roll = (roll*180)/M_PI;
-  imu_data_.pitch = (pitch*180)/M_PI;
-  imu_data_.yaw = (yaw*180)/M_PI;
-
-  std::cout.precision(4);
-  std::cout << std::endl;
-  std::cout<<" YAW  | "<<imu_data_.yaw << std::endl;
-  std::cout<<" ROLL | "<<imu_data_.roll << std::endl;
-  std::cout<<" PITCH| "<<imu_data_.pitch << std::endl;
-  std::cout << std::endl;
+  imu_data_.roll = -1.0 * (roll*180)/M_PI;
+  imu_data_.pitch = -1.0 * (pitch*180)/M_PI;
+  imu_data_.yaw = -1.0 * (yaw*180)/M_PI;
 
   imu_Pub->publish(imu_data_);
 

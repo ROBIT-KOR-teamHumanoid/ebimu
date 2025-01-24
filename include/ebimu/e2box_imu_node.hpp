@@ -24,7 +24,6 @@
 #include "humanoid_interfaces/msg/imu_msg.hpp"
 
 //extern double roll, pitch, yaw;
-extern humanoid_interfaces::msg::ImuMsg imu_data_;
 
 namespace e2box_imu
 {
@@ -40,8 +39,7 @@ public:
 
   double angular_velocity_threshold;
   double linear_acceleration_threshold;
-  
-  rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_publisher_;
+
   rclcpp::Publisher<humanoid_interfaces::msg::ImuMsg>::SharedPtr imu_Pub;
   void onReceiveImu();
   void publishIMUData();
