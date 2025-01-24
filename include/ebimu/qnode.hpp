@@ -40,7 +40,6 @@ class QNode : public QThread
 public:
   QNode();
   ~QNode();
-  
 
 protected:
   void run();
