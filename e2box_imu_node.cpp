@@ -303,9 +303,9 @@ void E2BoxIMUNode::publishEulerData()
   t4 = 1.0 - 2.0 * (y * y + z * z);
   yaw = atan2(t3,t4);
 
-  imu_data_.roll = (roll*180)/M_PI;
-  imu_data_.pitch = (pitch*180)/M_PI;
-  imu_data_.yaw = (yaw*180)/M_PI;
+  imu_data_.roll = (pitch*180)/M_PI;
+  imu_data_.pitch = (yaw*180)/M_PI;
+  imu_data_.yaw = -1.0 * (yaw*180)/M_PI;
 
   std::cout.precision(4);
   std::cout << std::endl;
@@ -315,7 +315,6 @@ void E2BoxIMUNode::publishEulerData()
   std::cout << std::endl;
 
   imu_Pub->publish(imu_data_);
-
 }
 
 void E2BoxIMUNode::setCallback()

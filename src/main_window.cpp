@@ -56,7 +56,11 @@ void MainWindow::imu_callback()
 
   if(yaw > 180) yaw -= 360;
   else if(yaw <= -180)  yaw += 360;
-  imu_data_.yaw=yaw;
+  
+  imu_data_.yaw = -1.0 * yaw;
+  double temp_data = imu_data_.pitch;
+  imu_data_.pitch = imu_data_.roll;
+  imu_data_.roll = temp_data;
 
   std::cout.precision(4);
   std::cout << std::endl;
