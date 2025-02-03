@@ -64,10 +64,10 @@ void MainWindow::imu_callback()
   std::cout<<" ROLL | "<<imu_data_.roll << std::endl;
   std::cout<<" PITCH| "<<imu_data_.pitch << std::endl;
   std::cout << std::endl;
-
+  
   imu_publisher_->publish(imu_data_);
   //node->imu_publisher_->publish(imu_data_);
-
+  
   uiUpdate();
 }
 
@@ -75,7 +75,7 @@ void MainWindow::uiUpdate()
 {
   ui->dial->setValue(static_cast<int>(-yaw));//y
   ui->verticalSlider->setValue(static_cast<int>(pitch));//p
-  ui->horizontalSlider->setValue(static_cast<int>(roll));//r
+  ui->horizontalSlider->setValue(static_cast<int>(roll));//r  
 }
 
 void MainWindow::on_pushButton_set_clicked()
